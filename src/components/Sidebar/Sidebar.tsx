@@ -1,26 +1,104 @@
-import { useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import ExplorerTab from "./Explorer/ExplorerTab";
+import ResizeDragger from "../Global/ResizeDragger";
+import FileTree  from "./FileTree/FileTree";
+import { PathElement } from "@/utils/Types/FileSystem";
 
-export default function Sidebar() {
+
+
+export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+
+	const fileStructure: PathElement[] = [
+		{
+			type: "file",
+			name: "Executable",
+			extension: "exe",
+		},
+		{
+			type: "folder",
+			name: "Top Level Folder",
+			children: [
+				{
+					type: "file",
+					name: "Resume",
+					extension: "pdf",
+				},
+				{
+					type: "folder",
+					name: "Second Level Folder",
+					children: [],
+				},
+				{
+					type: "folder",
+					name: "Second Level Folder 2",
+					children: [
+						{
+							type: "file",
+							name: "Resume",
+							extension: "pdf",
+						},
+						{
+							type: "folder",
+							name: "Third Level Folder",
+							children: [],
+						},
+					],
+				},
+			],
+		},
+	];
+
+	const [sidebarWidth, setSidebarWidth] = useState<number | null>(null);
+	const sidebarRef = useRef<HTMLDivElement>(null);
 
 	function toggleSidebar() {
 		setSidebarCollapsed(!sidebarCollapsed);
 	}
 
 	return (
-        // Important for this to have a higher z index so editor doesent cover it
+		// Important for this to have a higher z index so editor doesent cover it
 		<div
+			ref={sidebarRef}
+			style={{
+				width: sidebarCollapsed
+					? "1.75rem"
+					: (sidebarWidth != null && sidebarWidth) || "12rem",
+			}}
 			className={`
-                ${sidebarCollapsed ? "w-6" : "w-48"}
-                ${sidebarCollapsed ? "justify-center" : "px-2"} 
-                h-full bg-base-300 flex z-10`}
+                ${sidebarCollapsed ? "justify-center" : "px-1.5"} 
+                ${sidebarCollapsed ? "block" : "flex flex-col"}
+                h-full bg-base-300 flex z-10 px-0 select-none
+                overflow-hidden text-ellipsis
+            `}
 		>
+			{!sidebarCollapsed && (
+				<ResizeDragger
+					containerRef={sidebarRef}
+					containerWidth={sidebarWidth}
+					setContainerWidth={setSidebarWidth}
+					height={`calc(100vh - ${headerHeight}px)`}
+				/>
+			)}
+
 			<ExplorerTab
 				toggleSidebar={toggleSidebar}
-                sidebarCollapsed={sidebarCollapsed}
+				sidebarCollapsed={sidebarCollapsed}
 				rotated={sidebarCollapsed}
 			/>
+
+			{/* Tab and File Tree Seperator */}
+			{!sidebarCollapsed && (
+				<div className="h-0.5 w-full bg-neutral my-1"></div>
+			)}
+
+			<FileTree
+				folderName="My Folder"
+				fileStructure={fileStructure}
+				sidebarCollapsed={sidebarCollapsed}
+			/>
+
+		
 		</div>
 	);
 }

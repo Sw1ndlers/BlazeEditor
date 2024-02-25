@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactNode } from "react";
 import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
 import chroma from "chroma-js";
-import { splitOklchString } from "@/functions/colors";
+import { splitOklchString } from "@/utils/Functions/Colors";
 import Header from "@/components/Header/Header";
 import { IconArrowLeft, IconFolder } from "@tabler/icons-react";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -114,8 +114,6 @@ export default function Home() {
 			const backgroundColor: string =
 				backgroundStyles.getPropertyValue("background-color");
 
-			console.log(backgroundColor);
-
 			setBackgroundColor(backgroundColor);
 		}
 	}, []);
@@ -168,10 +166,12 @@ export default function Home() {
 				className="flex flex-row"
 			>
 				{/* Sidebar */}
-				<Sidebar />
+				<Sidebar 
+                    headerHeight={headerHeight}
+                />
 
 				{/* Editor */}
-				{/* TODO: Figure out why the fuck w-0.5 makes the sidebar resize correctly */}
+				{/* TODO: Figure out why w-0.5 makes the sidebar resize correctly */}
 				<div className="flex-grow w-0.5 h-full -ml-3">
 					{backgroundColor && (
 						<Editor

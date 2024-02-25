@@ -1,5 +1,8 @@
 import { useRef, useState } from "react";
-import { useClickOutside } from "@/functions/hooks/clickOutside";
+import { useClickOutside } from "@/utils/Hooks/ClickOutside";
+import useFileStore from "@/utils/Store";
+import { open } from "@tauri-apps/api/dialog";
+import { invoke } from "@tauri-apps/api/tauri";
 
 function MenuItem({
 	title,
@@ -22,7 +25,7 @@ function MenuItem({
 		// Little janky because for some reason the space only works on the left side
 		return (
 			// Thats why margin-right is being added
-			<div key={index} className="mr-1">
+			<div key={index} onClick={callback} className="mr-1">
 				<kbd className={kbdStyle}>{key}</kbd>
 				<a>{addSign}</a>
 			</div>
@@ -36,6 +39,33 @@ function MenuItem({
 				<div className="flex ml-auto">{keybinds}</div>
 			</td>
 		</tr>
+	);
+}
+
+function OpenFolder({ compact }: { compact: boolean }) {
+	const setOpenFolder = useFileStore((state) => state.setSelectedFolder);
+
+	async function openFolderCallback() {
+		const selectedFolder = await open({
+			multiple: false,
+			directory: true,
+		});
+
+		console.log(selectedFolder);
+        const fileTree = await invoke('generate_file_tree', { folderPath: selectedFolder })
+
+        console.log(fileTree)
+
+
+	}
+
+	return (
+		<MenuItem
+			title="Open Folder"
+			keybind="Ctrl + K"
+			callback={openFolderCallback}
+			compact={compact}
+		/>
 	);
 }
 
@@ -55,7 +85,6 @@ export default function MenuDropdown({
 		// TODO: Needs a check to see if the dropdown is open
 		// Unnecessary calls otherwise
 		if (!mouseOverButton) {
-			console.log("click outside");
 			setFileMenuOpen(false);
 		}
 	});
@@ -84,12 +113,7 @@ export default function MenuDropdown({
 						compact={compact}
 					/>
 
-					<MenuItem
-						title="Open Folder"
-						keybind="Ctrl + K"
-						callback={() => {}}
-						compact={compact}
-					/>
+					<OpenFolder compact={compact} />
 
 					<MenuItem
 						title="Save"

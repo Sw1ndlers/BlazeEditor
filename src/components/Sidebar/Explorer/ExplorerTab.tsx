@@ -2,11 +2,11 @@ import { IconFolder } from "@tabler/icons-react";
 
 export default function ExplorerTab({
 	toggleSidebar,
-    sidebarCollapsed,
+	sidebarCollapsed,
 	rotated,
 }: {
 	toggleSidebar: () => void;
-    sidebarCollapsed: boolean;
+	sidebarCollapsed: boolean;
 	rotated: boolean;
 }) {
 	const folderRotation = rotated ? "rotate-90" : ""; // Div wrapper rotation
@@ -18,14 +18,16 @@ export default function ExplorerTab({
 			onClick={toggleSidebar}
 			className={`
                 rounded-sm flex items-center ${flexDirection} 
-                gap-1 select-none hover:bg-base-100 h-min 
+                gap-1 select-none h-min font-bold
+
+                ${sidebarCollapsed ? "hover:bg-base-100" : " bg-base-100"}
                 
-                ${sidebarCollapsed ? "px-0.5 py-1" : "py-0.5 px-2"}
-                ${sidebarCollapsed ? "w-min" : "w-full"}
+                ${sidebarCollapsed ? "px-0.5 py-1" : " py-[0.35rem] px-2"}
+                ${sidebarCollapsed ? "w-min" : "w-full h-6"}
                 
             `}
 		>
-			<IconFolder size={12} className={folderRotation} />
+			<IconFolder size={14} className={folderRotation} />
 			<p
 				style={{
 					writingMode: writingMode,
