@@ -8,7 +8,7 @@ const config: Config = {
 	],
 	plugins: ["prettier-plugin-tailwindcss", require("daisyui")],
     daisyui: {
-        themes: ["light", "dark", "sunset", "luxury"]
+        themes: ["light", "dark", "sunset", "luxury", "dracula", "winter"]
     }
 };
 export default config;

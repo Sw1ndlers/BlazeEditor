@@ -8,6 +8,7 @@ import { splitOklchString } from "@/utils/Functions/Colors";
 import Header from "@/components/Header/Header";
 import { IconArrowLeft, IconFolder } from "@tabler/icons-react";
 import Sidebar from "@/components/Sidebar/Sidebar";
+import useCssColor from "@/utils/Hooks/CssColor";
 
 type Tab = {
 	element: ReactNode;
@@ -100,23 +101,10 @@ function Tab({ tab, tabs, setTabs }: { tab: Tab; tabs: Tab[]; setTabs: any }) {
 	);
 }
 
-
-
 export default function Home() {
 	const headerHeight = 40;
-	const backgroundRef = useRef(null);
-	const [backgroundColor, setBackgroundColor] = useState<string | null>(null);
+	const backgroundColor = useCssColor("base-200");
 	const [editor, setEditor] = useState<any>(null);
-
-	useEffect(() => {
-		if (backgroundRef.current) {
-			const backgroundStyles = getComputedStyle(backgroundRef.current);
-			const backgroundColor: string =
-				backgroundStyles.getPropertyValue("background-color");
-
-			setBackgroundColor(backgroundColor);
-		}
-	}, []);
 
 	function handleEditorDidMount(editor: any, monaco: any) {
 		if (!backgroundColor) {
@@ -124,15 +112,12 @@ export default function Home() {
 			return;
 		}
 
-		const backgroundOklch = splitOklchString(backgroundColor);
-		const backgroundHex = chroma.oklch(...backgroundOklch).hex();
-
 		monaco.editor.defineTheme("my-theme", {
 			base: "vs-dark",
 			inherit: true,
 			rules: [],
 			colors: {
-				"editor.background": backgroundHex,
+				"editor.background": backgroundColor,
 			},
 		});
 
@@ -153,10 +138,7 @@ export default function Home() {
 	}, [editor]);
 
 	return (
-		<div
-			ref={backgroundRef}
-			className="flex flex-col w-screen h-screen bg-base-200 "
-		>
+		<div className="flex flex-col w-screen h-screen bg-base-200 ">
 			<Header headerHeight={headerHeight} />
 
 			<div
@@ -166,17 +148,14 @@ export default function Home() {
 				className="flex flex-row"
 			>
 				{/* Sidebar */}
-				<Sidebar 
-                    headerHeight={headerHeight}
-                />
+				<Sidebar headerHeight={headerHeight} />
 
 				{/* Editor */}
-				{/* TODO: Figure out why w-0.5 makes the sidebar resize correctly */}
 				<div className="flex-grow w-0.5 h-full -ml-3">
 					{backgroundColor && (
 						<Editor
 							defaultLanguage="typescript"
-							defaultValue="// Default Comment"
+							defaultValue="console.log('Best Editor')"
 							onMount={handleEditorDidMount}
 						/>
 					)}

@@ -3,7 +3,7 @@ import ExplorerTab from "./Explorer/ExplorerTab";
 import ResizeDragger from "../Global/ResizeDragger";
 import FileTree from "./FileTree/FileTree";
 import { PathElement } from "@/utils/Types/FileSystem";
-import {useFileStore} from "@/utils/Store";
+import { useFileStore } from "@/utils/Stores/FileStore";
 import { getFolderName } from "@/utils/Functions/FileSystem";
 
 export default function Sidebar({ headerHeight }: { headerHeight: number }) {
@@ -82,12 +82,12 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 				width: sidebarCollapsed
 					? "1.75rem"
 					: (sidebarWidth != null && sidebarWidth) || "12rem",
-                scrollbarGutter: "both"
+				scrollbarGutter: "both",
 			}}
 			className={`
                 ${sidebarCollapsed ? "justify-center" : "px-1.5"} 
                 ${sidebarCollapsed ? "block" : "flex flex-col"}
-                h-full bg-base-300 flex z-10 px-0 select-none
+                min-h-full bg-base-300 flex z-10 px-0 select-none
                 overflow-x-hidden overflow-y-scroll text-ellipsis
             `}
 		>
@@ -108,18 +108,10 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 
 			{/* Tab and File Tree Seperator */}
 			{!sidebarCollapsed && (
-				<div className="h-0.5 w-full bg-neutral my-1"></div>
+				<div className="min-h-0.5 w-full bg-base-100 my-1"></div>
 			)}
 
-			{/* <FileTree
-				folderName={
-					(selectedFolder && getFolderName(selectedFolder)) ||
-					"No Folder Selected"
-				}
-				fileStructure={fileTree}
-				sidebarCollapsed={sidebarCollapsed}
-			/> */}
-            {fileTreeElement}
+			{fileTreeElement}
 		</div>
 	);
 }

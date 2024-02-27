@@ -39,7 +39,7 @@ function ActionButton({
 	);
 }
 
-export default function ActionButtons() {
+export default function ActionButtons({ iconColor }: { iconColor: string }) {
 	const [appWindow, setAppWindow] = useState<WebviewWindow | null>(null);
 
 	// Fix issues with async imports
@@ -59,7 +59,7 @@ export default function ActionButtons() {
 				hoverClass="hover:bg-base-200"
 				actionType="minimize"
 			>
-				<IconMinus size={18} />
+				<IconMinus size={18} color={iconColor} />
 			</ActionButton>
 
 			<ActionButton
@@ -67,7 +67,7 @@ export default function ActionButtons() {
 				hoverClass="hover:bg-base-200"
 				actionType="maximize"
 			>
-				<IconSquare size={15} />
+				<IconSquare size={15} color={iconColor} />
 			</ActionButton>
 
 			<ActionButton
@@ -75,7 +75,7 @@ export default function ActionButtons() {
 				hoverClass="hover:bg-error"
 				actionType="close"
 			>
-				<IconX size={20} className="mr-[1px]" />
+				<IconX size={20} color={iconColor} className="mr-[1px]" />
 			</ActionButton>
 		</div>
 	);

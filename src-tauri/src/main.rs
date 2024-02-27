@@ -124,7 +124,7 @@ fn populate_folder(original_tree: Vec<PathElement>, folder_path: String) -> Vec<
         match element {
             PathElement::Folder(mut folder) => {
                 if folder.absolute_path == folder_path {
-                    folder.populate_children();  // Populate the children recursively
+                    folder.populate_children(); // Populate the children recursively
                     new_tree.push(PathElement::Folder(folder));
                 } else {
                     // Recursively process the children of the folder
@@ -171,7 +171,10 @@ fn main() {
             set_shadow(&window, true).expect("Unsupported platform!");
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![generate_file_tree, populate_folder])
+        .invoke_handler(tauri::generate_handler![
+            generate_file_tree,
+            populate_folder
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

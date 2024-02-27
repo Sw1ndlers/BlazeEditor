@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "@/utils/Hooks/ClickOutside";
-import { useFileStore } from "@/utils/Store";
+import { useFileStore } from "@/utils/Stores/FileStore";
 import { open } from "@tauri-apps/api/dialog";
-import { invoke } from "@tauri-apps/api/tauri";
+// import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@/utils/Functions/Tauri";
 import { PathElement } from "@/utils/Types/FileSystem";
 
 function MenuItem({
@@ -35,7 +36,7 @@ function MenuItem({
 
 	return (
 		<tr className="hover:bg-base-300 select-none" onClick={callback}>
-			<td className="rounded-md">{title}</td>
+			<td className="rounded-l-md">{title}</td>
 			<td className="rounded-md flex flex-row">
 				<div className="flex ml-auto">{keybinds}</div>
 			</td>

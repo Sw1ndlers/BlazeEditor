@@ -1,8 +1,17 @@
 import { IconFlame } from "@tabler/icons-react";
 import FileButton from "./Buttons/FileButton";
 import ActionButtons from "./Buttons/ActionButtons";
+import useCssColor from "@/utils/Hooks/CssColor";
 
 export default function Header({ headerHeight }: { headerHeight: number }) {
+	const iconColor = useCssColor("base-content");
+
+	if (iconColor === null) {
+		return null;
+	}
+
+	// console.log(iconColor);
+
 	return (
 		<div
 			data-tauri-drag-region
@@ -16,8 +25,7 @@ export default function Header({ headerHeight }: { headerHeight: number }) {
 			</div>
 
 			<FileButton headerHeight={headerHeight} />
-
-			<ActionButtons />
+			<ActionButtons iconColor={iconColor} />
 		</div>
 	);
 }
