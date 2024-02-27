@@ -1,56 +1,74 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import ExplorerTab from "./Explorer/ExplorerTab";
 import ResizeDragger from "../Global/ResizeDragger";
-import FileTree  from "./FileTree/FileTree";
+import FileTree from "./FileTree/FileTree";
 import { PathElement } from "@/utils/Types/FileSystem";
-
-
+import {useFileStore} from "@/utils/Store";
+import { getFolderName } from "@/utils/Functions/FileSystem";
 
 export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
+	// const fileTree = useFileStore((state) => state.fileTree);
+	const [fileTree, selectedFolder] = useFileStore((state) => [
+		state.fileTree,
+		state.selectedFolder,
+	]);
 
-	const fileStructure: PathElement[] = [
-		{
-			type: "file",
-			name: "Executable",
-			extension: "exe",
-		},
-		{
-			type: "folder",
-			name: "Top Level Folder",
-			children: [
-				{
-					type: "file",
-					name: "Resume",
-					extension: "pdf",
-				},
-				{
-					type: "folder",
-					name: "Second Level Folder",
-					children: [],
-				},
-				{
-					type: "folder",
-					name: "Second Level Folder 2",
-					children: [
-						{
-							type: "file",
-							name: "Resume",
-							extension: "pdf",
-						},
-						{
-							type: "folder",
-							name: "Third Level Folder",
-							children: [],
-						},
-					],
-				},
-			],
-		},
-	];
+	// const fileStructure: PathElement[] = [
+	// 	{
+	// 		type: "file",
+	// 		name: "Executable",
+	// 		extension: "exe",
+	// 	},
+	// 	{
+	// 		type: "folder",
+	// 		name: "Top Level Folder",
+	// 		children: [
+	// 			{
+	// 				type: "file",
+	// 				name: "Resume",
+	// 				extension: "pdf",
+	// 			},
+	// 			{
+	// 				type: "folder",
+	// 				name: "Second Level Folder",
+	// 				children: [],
+	// 			},
+	// 			{
+	// 				type: "folder",
+	// 				name: "Second Level Folder 2",
+	// 				children: [
+	// 					{
+	// 						type: "file",
+	// 						name: "Resume",
+	// 						extension: "pdf",
+	// 					},
+	// 					{
+	// 						type: "folder",
+	// 						name: "Third Level Folder",
+	// 						children: [],
+	// 					},
+	// 				],
+	// 			},
+	// 		],
+	// 	},
+	// ];
 
 	const [sidebarWidth, setSidebarWidth] = useState<number | null>(null);
 	const sidebarRef = useRef<HTMLDivElement>(null);
+
+	const fileTreeElement = useMemo(() => {
+		return (
+			<FileTree
+				folderName={
+					(selectedFolder && getFolderName(selectedFolder)) ||
+					"No Folder Selected"
+				}
+				fileStructure={fileTree}
+				sidebarCollapsed={sidebarCollapsed}
+			/>
+		);
+	}, [fileTree, selectedFolder, sidebarCollapsed]);
 
 	function toggleSidebar() {
 		setSidebarCollapsed(!sidebarCollapsed);
@@ -64,12 +82,13 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 				width: sidebarCollapsed
 					? "1.75rem"
 					: (sidebarWidth != null && sidebarWidth) || "12rem",
+                scrollbarGutter: "both"
 			}}
 			className={`
                 ${sidebarCollapsed ? "justify-center" : "px-1.5"} 
                 ${sidebarCollapsed ? "block" : "flex flex-col"}
                 h-full bg-base-300 flex z-10 px-0 select-none
-                overflow-hidden text-ellipsis
+                overflow-x-hidden overflow-y-scroll text-ellipsis
             `}
 		>
 			{!sidebarCollapsed && (
@@ -92,13 +111,15 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 				<div className="h-0.5 w-full bg-neutral my-1"></div>
 			)}
 
-			<FileTree
-				folderName="My Folder"
-				fileStructure={fileStructure}
+			{/* <FileTree
+				folderName={
+					(selectedFolder && getFolderName(selectedFolder)) ||
+					"No Folder Selected"
+				}
+				fileStructure={fileTree}
 				sidebarCollapsed={sidebarCollapsed}
-			/>
-
-		
+			/> */}
+            {fileTreeElement}
 		</div>
 	);
 }

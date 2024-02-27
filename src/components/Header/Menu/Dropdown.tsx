@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "@/utils/Hooks/ClickOutside";
-import useFileStore from "@/utils/Store";
+import { useFileStore } from "@/utils/Store";
 import { open } from "@tauri-apps/api/dialog";
 import { invoke } from "@tauri-apps/api/tauri";
+import { PathElement } from "@/utils/Types/FileSystem";
 
 function MenuItem({
 	title,
@@ -43,7 +44,11 @@ function MenuItem({
 }
 
 function OpenFolder({ compact }: { compact: boolean }) {
-	const setOpenFolder = useFileStore((state) => state.setSelectedFolder);
+	// const setFileTree = useFileStore((state) => state.setFileTree);
+	const [setFileTree, setSelectedFolder] = useFileStore((state) => [
+		state.setFileTree,
+		state.setSelectedFolder,
+	]);
 
 	async function openFolderCallback() {
 		const selectedFolder = await open({
@@ -51,12 +56,12 @@ function OpenFolder({ compact }: { compact: boolean }) {
 			directory: true,
 		});
 
-		console.log(selectedFolder);
-        const fileTree = await invoke('generate_file_tree', { folderPath: selectedFolder })
+		const fileTree: PathElement[] = await invoke("generate_file_tree", {
+			folderPath: selectedFolder,
+		});
 
-        console.log(fileTree)
-
-
+		setSelectedFolder(selectedFolder as string);
+		setFileTree(fileTree);
 	}
 
 	return (
