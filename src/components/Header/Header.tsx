@@ -10,8 +10,6 @@ export default function Header({ headerHeight }: { headerHeight: number }) {
 		return null;
 	}
 
-	// console.log(iconColor);
-
 	return (
 		<div
 			data-tauri-drag-region

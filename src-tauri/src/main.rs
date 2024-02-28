@@ -2,6 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use serde::{Deserialize, Serialize};
+use std::cmp::Ordering;
 use std::fs::read_dir;
 use std::path::PathBuf;
 use tauri::Manager;
@@ -140,6 +141,8 @@ fn populate_folder(original_tree: Vec<PathElement>, folder_path: String) -> Vec<
         }
     }
 
+    sort_file_tree(&mut new_tree);
+
     new_tree
 }
 
@@ -161,7 +164,30 @@ fn generate_file_tree(folder_path: String) -> Vec<PathElement> {
         }
     }
 
+    sort_file_tree(&mut file_tree);
+
     file_tree
+}
+
+fn sort_file_tree(tree: &mut Vec<PathElement>) {
+
+    // Sort alphabetically
+    tree.sort_by(|a, b| match (a, b) {
+        (PathElement::Folder(folder_a), PathElement::Folder(folder_b)) => {
+            folder_a.name.to_lowercase().cmp(&folder_b.name.to_lowercase())
+        }
+        (PathElement::File(file_a), PathElement::File(file_b)) => {
+            file_a.name.to_lowercase().cmp(&file_b.name.to_lowercase())
+        }
+        _ => Ordering::Equal,
+    });
+
+    // Sort by folder first, then file
+    tree.sort_by(|a, b| match (a, b) {
+        (PathElement::Folder(_), PathElement::File(_)) => Ordering::Less,
+        (PathElement::File(_), PathElement::Folder(_)) => Ordering::Greater,
+        _ => Ordering::Equal,
+    });
 }
 
 fn main() {

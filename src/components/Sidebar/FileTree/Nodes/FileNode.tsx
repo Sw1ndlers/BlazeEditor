@@ -22,6 +22,7 @@ import {
 	IconBrandSvelte,
 	IconBrandYarn,
 	IconBrandSass,
+    IconBrandGithubFilled,
 } from "@tabler/icons-react";
 
 type ElementIconProps = {
@@ -57,7 +58,25 @@ function getElementIcon(element: FileElement, iconProps: ElementIconProps) {
 		sass: <IconBrandSass {...iconProps} />,
 	};
 
-	return iconMap[element.extension] || <IconFile {...iconProps} />;
+    const nameMap: Record<string, React.ReactElement> = {
+        ".gitignore": <IconBrandGithubFilled {...iconProps} />,
+    }
+    
+    const extentionIcon = iconMap[element.extension];
+
+    if (extentionIcon) {
+        return extentionIcon;
+    }
+
+    const nameIcon = nameMap[element.name];
+
+    if (nameIcon) {
+        return nameIcon;
+    }
+
+    return <IconFile {...iconProps} />;
+
+	// return iconMap[element.extension] || <IconFile {...iconProps} />;
 }
 
 export default function FileNode({
@@ -67,8 +86,6 @@ export default function FileNode({
 	fileElement: FileElement;
 	iconColor: string;
 }) {
-	console.log(iconColor);
-
 	const iconProps = {
 		size: 15,
 		className: "-mr-1",

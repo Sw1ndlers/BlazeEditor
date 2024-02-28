@@ -1,8 +1,7 @@
 import { useFileStore } from "@/utils/Stores/FileStore";
 import { useFolderStore } from "@/utils/Stores/FolderStore";
 import { FolderElement, PathElement } from "@/utils/Types/FileSystem";
-import { IconFolder } from "@tabler/icons-react";
-// import { invoke } from "@tauri-apps/api";
+import { IconFolder, IconFolderFilled } from "@tabler/icons-react";
 import { invoke } from "@/utils/Functions/Tauri";
 import generateNodes from "./GenerateNodes";
 
@@ -38,6 +37,7 @@ export default function FolderNode({
 
 	function toggleOpen(folderElement: FolderElement) {
 		const isOpen = isFolderOpen(folderElement.absolutePath);
+        console.log("isOpen", isOpen);
 		setFolderOpen(folderElement.absolutePath, !isOpen);
 	}
 
@@ -52,14 +52,23 @@ export default function FolderNode({
 			setFolderLoaded(folderElement.absolutePath, true);
 		}
 
-		toggleOpen(folderElement);
+        // Fixes issues with the folder not closing
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        toggleOpen(folderElement);
 	}
 
 	return (
 		<li>
 			<details open={isFolderOpen(folderElement.absolutePath)}>
 				<summary onClick={() => onClick(folderElement)}>
-					<IconFolder size={15} color={iconColor} className="-mr-1" />
+
+                    {isFolderOpen(folderElement.absolutePath) ? (
+                        <IconFolder size={15} color={iconColor} className="-mr-1" />
+                    ) : (
+                        <IconFolderFilled size={15} color={iconColor} className="-mr-1" />
+                    )}
+
 					<p className="text-ellipsis overflow-hidden text-nowrap">
 						{folderElement.name}
 					</p>

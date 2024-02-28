@@ -98,7 +98,7 @@ export default function MenuDropdown({
 	return (
 		<div
 			ref={dropdownRef}
-			className={`w-max h-min ml-1 absolute bg-base-100 top-10
+			className={`w-max h-min ml-1 absolute bg-base-200 top-10
             ${!fileMenuOpen && "hidden"}
             shadow-lg rounded-md menu z-50
         `}

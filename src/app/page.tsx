@@ -139,6 +139,9 @@ export default function Home() {
 
 	return (
 		<div className="flex flex-col w-screen h-screen bg-base-200 ">
+			{/* Div to store colors for use in useCssColor */}
+			<div className="bg-base-content absolute size-0"></div>
+
 			<Header headerHeight={headerHeight} />
 
 			<div
