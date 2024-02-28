@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { splitOklchString } from "../Functions/Colors";
 import chroma from "chroma-js";
 
-
 export default function useCssColor(color: string) {
 	const [hexColor, setHexColor] = useState<string | null>(null);
 
@@ -17,7 +16,6 @@ export default function useCssColor(color: string) {
 
 		const backgroundOklch = splitOklchString(backgroundColor);
 		const backgroundHex = chroma.oklch(...backgroundOklch).hex();
-
 
 		document.body.removeChild(sampleDiv);
 

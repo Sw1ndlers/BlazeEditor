@@ -37,7 +37,7 @@ export default function FolderNode({
 
 	function toggleOpen(folderElement: FolderElement) {
 		const isOpen = isFolderOpen(folderElement.absolutePath);
-        console.log("isOpen", isOpen);
+		console.log("isOpen", isOpen);
 		setFolderOpen(folderElement.absolutePath, !isOpen);
 	}
 
@@ -52,22 +52,29 @@ export default function FolderNode({
 			setFolderLoaded(folderElement.absolutePath, true);
 		}
 
-        // Fixes issues with the folder not closing
-        await new Promise(resolve => setTimeout(resolve, 0));
+		// Fixes issues with the folder not closing
+		await new Promise((resolve) => setTimeout(resolve, 0));
 
-        toggleOpen(folderElement);
+		toggleOpen(folderElement);
 	}
 
 	return (
 		<li>
 			<details open={isFolderOpen(folderElement.absolutePath)}>
 				<summary onClick={() => onClick(folderElement)}>
-
-                    {isFolderOpen(folderElement.absolutePath) ? (
-                        <IconFolder size={15} color={iconColor} className="-mr-1" />
-                    ) : (
-                        <IconFolderFilled size={15} color={iconColor} className="-mr-1" />
-                    )}
+					{isFolderOpen(folderElement.absolutePath) ? (
+						<IconFolder
+							size={15}
+							color={iconColor}
+							className="-mr-1"
+						/>
+					) : (
+						<IconFolderFilled
+							size={15}
+							color={iconColor}
+							className="-mr-1"
+						/>
+					)}
 
 					<p className="text-ellipsis overflow-hidden text-nowrap">
 						{folderElement.name}

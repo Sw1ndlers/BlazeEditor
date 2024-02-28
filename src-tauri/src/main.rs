@@ -170,12 +170,12 @@ fn generate_file_tree(folder_path: String) -> Vec<PathElement> {
 }
 
 fn sort_file_tree(tree: &mut Vec<PathElement>) {
-
     // Sort alphabetically
     tree.sort_by(|a, b| match (a, b) {
-        (PathElement::Folder(folder_a), PathElement::Folder(folder_b)) => {
-            folder_a.name.to_lowercase().cmp(&folder_b.name.to_lowercase())
-        }
+        (PathElement::Folder(folder_a), PathElement::Folder(folder_b)) => folder_a
+            .name
+            .to_lowercase()
+            .cmp(&folder_b.name.to_lowercase()),
         (PathElement::File(file_a), PathElement::File(file_b)) => {
             file_a.name.to_lowercase().cmp(&file_b.name.to_lowercase())
         }
