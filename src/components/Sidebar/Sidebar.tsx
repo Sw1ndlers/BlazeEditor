@@ -81,7 +81,7 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 			style={{
 				width: sidebarCollapsed
 					? "1.75rem"
-					: (sidebarWidth != null && sidebarWidth) || "12rem",
+					: (sidebarWidth != null && sidebarWidth) || "16rem",
 				scrollbarGutter: "both",
 			}}
 			className={`
