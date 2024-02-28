@@ -188,6 +188,13 @@ fn sort_file_tree(tree: &mut Vec<PathElement>) {
         (PathElement::File(_), PathElement::Folder(_)) => Ordering::Greater,
         _ => Ordering::Equal,
     });
+
+    // Recursively sort the children
+    for element in tree {
+        if let PathElement::Folder(folder) = element {
+            sort_file_tree(&mut folder.children);
+        }
+    }
 }
 
 fn main() {
