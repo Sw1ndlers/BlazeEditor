@@ -43,7 +43,7 @@ export default function ResizeDragger({
 			onMouseDown={onMouseDownDragger}
 			ref={draggerRef}
 			style={{
-				left: (containerWidth != null && containerWidth) || "12rem",
+				left: (containerWidth != null && containerWidth) || "16rem",
 				height: height,
 			}}
 			className="w-1 absolute hover:cursor-w-resize"

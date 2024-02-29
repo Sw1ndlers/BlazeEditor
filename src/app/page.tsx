@@ -104,13 +104,39 @@ function Tab({ tab, tabs, setTabs }: { tab: Tab; tabs: Tab[]; setTabs: any }) {
 export default function Home() {
 	const headerHeight = 40;
 	const backgroundColor = useCssColor("base-200");
+	const contextMenuColor = useCssColor("base-100");
+	const contextTextColor = useCssColor("base-content");
+
 	const [editor, setEditor] = useState<any>(null);
 
 	function handleEditorDidMount(editor: any, monaco: any) {
-		if (!backgroundColor) {
-			console.error("No background color");
+		if (!backgroundColor || !contextMenuColor) {
+			console.error("No background color or context menu color");
 			return;
 		}
+
+		const editorRoot = document.getElementsByClassName(
+			"monaco-editor",
+		)[0]! as HTMLDivElement;
+		const editorStyle = editorRoot.style;
+
+		editorStyle.setProperty("--vscode-menu-background", contextMenuColor);
+		editorStyle.setProperty(
+			"--vscode-menu-selectionBackground",
+			backgroundColor,
+		);
+		editorStyle.setProperty("--vscode-menu-foreground", contextTextColor);
+
+		const backgroundLuminance = chroma(backgroundColor).luminance();
+		const selectionForground =
+			backgroundLuminance > 0.5
+				? chroma(backgroundColor).darken(5)
+				: chroma(backgroundColor).brighten(5);
+
+		editorStyle.setProperty(
+			"--vscode-menu-selectionForeground",
+			selectionForground.hex(),
+		);
 
 		monaco.editor.defineTheme("my-theme", {
 			base: "vs-dark",
@@ -123,8 +149,6 @@ export default function Home() {
 
 		monaco.editor.setTheme("my-theme");
 		editor.focus();
-
-		editor.EditorOption;
 
 		setEditor(editor);
 	}
@@ -155,7 +179,7 @@ export default function Home() {
 
 				{/* Editor */}
 				<div className="flex-grow w-0.5 h-full -ml-3">
-					{backgroundColor && (
+					{backgroundColor && contextMenuColor && (
 						<Editor
 							defaultLanguage="typescript"
 							defaultValue="console.log('Best Editor')"
