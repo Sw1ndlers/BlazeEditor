@@ -8,51 +8,10 @@ import { getFolderName } from "@/utils/Functions/FileSystem";
 
 export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
-	// const fileTree = useFileStore((state) => state.fileTree);
 	const [fileTree, selectedFolder] = useFileStore((state) => [
 		state.fileTree,
 		state.selectedFolder,
 	]);
-
-	// const fileStructure: PathElement[] = [
-	// 	{
-	// 		type: "file",
-	// 		name: "Executable",
-	// 		extension: "exe",
-	// 	},
-	// 	{
-	// 		type: "folder",
-	// 		name: "Top Level Folder",
-	// 		children: [
-	// 			{
-	// 				type: "file",
-	// 				name: "Resume",
-	// 				extension: "pdf",
-	// 			},
-	// 			{
-	// 				type: "folder",
-	// 				name: "Second Level Folder",
-	// 				children: [],
-	// 			},
-	// 			{
-	// 				type: "folder",
-	// 				name: "Second Level Folder 2",
-	// 				children: [
-	// 					{
-	// 						type: "file",
-	// 						name: "Resume",
-	// 						extension: "pdf",
-	// 					},
-	// 					{
-	// 						type: "folder",
-	// 						name: "Third Level Folder",
-	// 						children: [],
-	// 					},
-	// 				],
-	// 			},
-	// 		],
-	// 	},
-	// ];
 
 	const [sidebarWidth, setSidebarWidth] = useState<number | null>(null);
 	const sidebarRef = useRef<HTMLDivElement>(null);
