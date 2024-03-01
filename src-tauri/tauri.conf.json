@@ -47,7 +47,7 @@
                 "icons/icon.icns",
                 "icons/icon.ico"
             ],
-            "identifier": "sw1ndler.blaze",
+            "identifier": "com.sw1ndler.blaze",
             "longDescription": "",
             "macOS": {
                 "entitlements": null,
