@@ -25,11 +25,15 @@ export default function FileTree({
 
 	return (
 		<ul
-			className={`menu menu-xs w-full p-0 ${sidebarCollapsed ? "hidden" : "flex"}`}
+			className={`menu menu-xs w-full max-h-full p-0 flex-col flex-nowrap pb-2 overflow-y-hidden ${sidebarCollapsed ? "hidden" : "flex"}`}
 		>
-			<p className=" text-xs px-1 py-0.5 font-semibold">{folderName}</p>
+			<p className=" text-xs px-1 py-0.5 font-semibold h-min">
+				{folderName}
+			</p>
 
-			{fileTreeElements}
+			<div className="flex-grow h-full overflow-y-scroll">
+				{fileTreeElements}
+			</div>
 		</ul>
 	);
 }

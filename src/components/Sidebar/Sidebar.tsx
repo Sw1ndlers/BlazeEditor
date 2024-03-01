@@ -46,8 +46,8 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 			className={`
                 ${sidebarCollapsed ? "justify-center" : "px-1.5"} 
                 ${sidebarCollapsed ? "block" : "flex flex-col"}
-                min-h-full bg-base-300 flex z-10 px-0 select-none
-                overflow-x-hidden overflow-y-scroll text-ellipsis
+                max-h-full bg-base-100 flex z-10 px-0 select-none
+                overflow-x-hidden text-ellipsis  overflow-y-hidden
             `}
 		>
 			{!sidebarCollapsed && (
@@ -67,7 +67,7 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 
 			{/* Tab and File Tree Seperator */}
 			{!sidebarCollapsed && (
-				<div className="min-h-0.5 w-full bg-base-100 my-1"></div>
+				<div className="min-h-0.5 w-full bg-base-200 my-1"></div>
 			)}
 
 			{fileTreeElement}

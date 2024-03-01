@@ -4,9 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ReactNode } from "react";
 import Editor, { DiffEditor, useMonaco, loader } from "@monaco-editor/react";
 import chroma from "chroma-js";
-import { splitOklchString } from "@/utils/Functions/Colors";
 import Header from "@/components/Header/Header";
-import { IconArrowLeft, IconFolder } from "@tabler/icons-react";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import useCssColor from "@/utils/Hooks/CssColor";
 
@@ -102,7 +100,7 @@ function Tab({ tab, tabs, setTabs }: { tab: Tab; tabs: Tab[]; setTabs: any }) {
 }
 
 export default function Home() {
-	const headerHeight = 40;
+	const headerHeight = 66;
 	const backgroundColor = useCssColor("base-200");
 	const contextMenuColor = useCssColor("base-100");
 	const contextTextColor = useCssColor("base-content");
@@ -162,7 +160,7 @@ export default function Home() {
 	}, [editor]);
 
 	return (
-		<div className="flex flex-col w-screen h-screen bg-base-200 ">
+		<div className="flex flex-col max-w-screen max-h-screen bg-base-200">
 			{/* Div to store colors for use in useCssColor */}
 			<div className="bg-base-content absolute size-0"></div>
 
@@ -178,7 +176,7 @@ export default function Home() {
 				<Sidebar headerHeight={headerHeight} />
 
 				{/* Editor */}
-				<div className="flex-grow w-0.5 h-full -ml-3">
+				<div className="flex-grow w-0.5 h-full -ml-3 pt-1">
 					{backgroundColor && contextMenuColor && (
 						<Editor
 							defaultLanguage="typescript"

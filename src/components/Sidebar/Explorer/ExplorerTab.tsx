@@ -20,9 +20,9 @@ export default function ExplorerTab({
                 rounded-sm flex items-center ${flexDirection} 
                 gap-1 select-none h-min font-bold
 
-                ${sidebarCollapsed ? "hover:bg-base-100" : " bg-base-100"}
+                ${sidebarCollapsed ? "hover:bg-base-200" : " bg-base-200"}
                 
-                ${sidebarCollapsed ? "px-0.5 py-1" : " py-[0.35rem] px-2"}
+                ${sidebarCollapsed ? "px-0.5 py-1" : "py-[0.35rem] px-2"}
                 ${sidebarCollapsed ? "w-min" : "w-full h-6"}
                 
             `}
