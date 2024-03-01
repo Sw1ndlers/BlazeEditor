@@ -1,6 +1,7 @@
 import { PathElement } from "@/utils/Types/FileSystem";
 import generateNodes from "./Nodes/GenerateNodes";
 import useCssColor from "@/utils/Hooks/CssColor";
+import { Color } from "chroma-js";
 
 export default function FileTree({
 	folderName,
@@ -11,16 +12,18 @@ export default function FileTree({
 	fileStructure: PathElement[];
 	sidebarCollapsed: boolean;
 }) {
-	const iconColor = useCssColor("base-content");
+	let iconColor: string | Color | null = useCssColor("base-content")
 
 	if (iconColor === null) {
 		return;
 	}
 
+    iconColor = iconColor.hex();
+
 	const fileTreeElements: React.JSX.Element[] = [];
 
 	fileStructure.forEach((element) => {
-		fileTreeElements.push(generateNodes(element, iconColor));
+		fileTreeElements.push(generateNodes(element, iconColor as string));
 	});
 
 	return (

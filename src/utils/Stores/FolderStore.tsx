@@ -5,6 +5,9 @@ type FolderData = {
 	open: boolean;
 	loaded: boolean;
 };
+
+// TODO: Implement isFolderLoaded and isFolderOpen into the FolderStore
+
 interface FolderStore {
 	folderData: Record<AbsolutePath, FolderData>;
 

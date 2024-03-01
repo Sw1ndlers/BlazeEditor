@@ -8,96 +8,6 @@ import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import useCssColor from "@/utils/Hooks/CssColor";
 
-type Tab = {
-	element: ReactNode;
-	order: number;
-};
-
-function TabContainer({ children }: { children: ReactNode }) {
-	const [tabs, setTabs] = useState<Tab[]>([]);
-
-	useEffect(() => {
-		let newTabs: Tab[] = [];
-
-		React.Children.forEach(children, (child, index) => {
-			newTabs.push({
-				element: child,
-				order: index,
-			});
-		});
-
-		setTabs(newTabs);
-	}, [children]);
-
-	return (
-		<div className="flex gap-4 p-4">
-			{tabs.map((tab) => {
-				return (
-					<Tab
-						tab={tab}
-						tabs={tabs}
-						setTabs={setTabs}
-						key={tab.order}
-					/>
-				);
-			})}
-		</div>
-	);
-}
-
-function Tab({ tab, tabs, setTabs }: { tab: Tab; tabs: Tab[]; setTabs: any }) {
-	const tabId = tab.order;
-
-	function swapTabs(index1: number, index2: number) {
-		let newTabs = [...tabs];
-
-		let tab1Index = newTabs.findIndex((tab) => tab.order === index1);
-		let tab2Index = newTabs.findIndex((tab) => tab.order === index2);
-
-		newTabs[tab1Index].order = index2;
-		newTabs[tab2Index].order = index1;
-
-		// Sort by order
-		newTabs.sort((a, b) => a.order - b.order);
-
-		setTabs(newTabs);
-	}
-
-	function dragEnter(event: React.DragEvent<HTMLDivElement>) {
-		event.preventDefault();
-	}
-
-	function dragOver(event: React.DragEvent<HTMLDivElement>) {
-		event.preventDefault();
-	}
-
-	function dragStart(event: React.DragEvent<HTMLDivElement>) {
-		event.dataTransfer.setData("number", tabId.toString());
-	}
-
-	function onDrop(event: React.DragEvent<HTMLDivElement>) {
-		event.preventDefault();
-
-		const tabDroppedData = event.dataTransfer.getData("number");
-		const tabDropped = parseInt(tabDroppedData);
-
-		swapTabs(tabDropped, tabId);
-	}
-
-	return (
-		<div
-			draggable={true}
-			className="border border-black select-none"
-			onDragStart={dragStart}
-			onDrop={onDrop}
-			// Disable default drag and drop
-			onDragEnter={dragEnter}
-			onDragOver={dragOver}
-		>
-			{tab.element}
-		</div>
-	);
-}
 
 export default function Home() {
 	const headerHeight = 66;
@@ -108,7 +18,7 @@ export default function Home() {
 	const [editor, setEditor] = useState<any>(null);
 
 	function handleEditorDidMount(editor: any, monaco: any) {
-		if (!backgroundColor || !contextMenuColor) {
+		if (!backgroundColor || !contextMenuColor || !contextTextColor) {
 			console.error("No background color or context menu color");
 			return;
 		}
@@ -118,12 +28,12 @@ export default function Home() {
 		)[0]! as HTMLDivElement;
 		const editorStyle = editorRoot.style;
 
-		editorStyle.setProperty("--vscode-menu-background", contextMenuColor);
+		editorStyle.setProperty("--vscode-menu-background", contextMenuColor.hex());
 		editorStyle.setProperty(
 			"--vscode-menu-selectionBackground",
-			backgroundColor,
+			backgroundColor.hex(),
 		);
-		editorStyle.setProperty("--vscode-menu-foreground", contextTextColor);
+		editorStyle.setProperty("--vscode-menu-foreground", contextTextColor.hex());
 
 		const backgroundLuminance = chroma(backgroundColor).luminance();
 		const selectionForground =
@@ -141,7 +51,7 @@ export default function Home() {
 			inherit: true,
 			rules: [],
 			colors: {
-				"editor.background": backgroundColor,
+				"editor.background": backgroundColor.hex(),
 			},
 		});
 
