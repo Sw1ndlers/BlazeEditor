@@ -4,10 +4,11 @@
 
 ::-webkit-scrollbar {
 	width: 0px;
+    height: 0px;
 	background: transparent;
 }
 
 
-.tab-inactive:hover {
+.tab-closed:hover {
 	background-color: var(--inactive-hover-color);
 }

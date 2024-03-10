@@ -1,83 +1,6 @@
 import { FileElement } from "@/utils/Types/FileSystem";
-import {
-	IconAppWindow,
-	IconBrandReact,
-	IconBrandTypescript,
-	IconFile,
-	IconFileTypePdf,
-	IconBrandPython,
-	IconBrandRust,
-	IconBraces,
-	IconMarkdown,
-	IconPhoto,
-	IconBrandCpp,
-	IconBrandHtml5,
-	IconBrandCss3,
-	IconBrandJavascript,
-	IconBrandPhp,
-	IconBrandSwift,
-	IconBrandKotlin,
-	IconBrandFlutter,
-	IconBrandAngular,
-	IconBrandSvelte,
-	IconBrandYarn,
-	IconBrandSass,
-	IconBrandGithubFilled,
-} from "@tabler/icons-react";
-
-type ElementIconProps = {
-	size: number;
-	color: string;
-	strokeWidth: number;
-	className: string;
-};
-
-function getElementIcon(element: FileElement, iconProps: ElementIconProps) {
-	const iconMap: Record<string, React.ReactElement> = {
-		ts: <IconBrandTypescript {...iconProps} />,
-		tsx: <IconBrandReact {...iconProps} />,
-		exe: <IconAppWindow {...iconProps} />,
-		pdf: <IconFileTypePdf {...iconProps} />,
-		py: <IconBrandPython {...iconProps} />,
-		rs: <IconBrandRust {...iconProps} />,
-		json: <IconBraces {...iconProps} />,
-		md: <IconMarkdown {...iconProps} />,
-		jpg: <IconPhoto {...iconProps} />,
-		png: <IconPhoto {...iconProps} />,
-		cpp: <IconBrandCpp {...iconProps} />,
-		html: <IconBrandHtml5 {...iconProps} />,
-		css: <IconBrandCss3 {...iconProps} />,
-		js: <IconBrandJavascript {...iconProps} />,
-		php: <IconBrandPhp {...iconProps} />,
-		swift: <IconBrandSwift {...iconProps} />,
-		kt: <IconBrandKotlin {...iconProps} />,
-		flutter: <IconBrandFlutter {...iconProps} />,
-		angular: <IconBrandAngular {...iconProps} />,
-		svelte: <IconBrandSvelte {...iconProps} />,
-		yarn: <IconBrandYarn {...iconProps} />,
-		sass: <IconBrandSass {...iconProps} />,
-	};
-
-	const nameMap: Record<string, React.ReactElement> = {
-		".gitignore": <IconBrandGithubFilled {...iconProps} />,
-	};
-
-	const extentionIcon = iconMap[element.extension];
-
-	if (extentionIcon) {
-		return extentionIcon;
-	}
-
-	const nameIcon = nameMap[element.name];
-
-	if (nameIcon) {
-		return nameIcon;
-	}
-
-	return <IconFile {...iconProps} />;
-
-	// return iconMap[element.extension] || <IconFile {...iconProps} />;
-}
+import getElementIcon from "@/utils/Elements/GetElementIcon";
+import { useTabStore } from "@/utils/Stores/TabStore";
 
 export default function FileNode({
 	fileElement,
@@ -86,6 +9,8 @@ export default function FileNode({
 	fileElement: FileElement;
 	iconColor: string;
 }) {
+    const setActiveTab = useTabStore((state) => state.setActiveTab);
+
 	const iconProps = {
 		size: 15,
 		className: "-mr-1",
@@ -93,10 +18,16 @@ export default function FileNode({
 		color: iconColor,
 	};
 
+    function onClick() {
+        console.log(`File: ${JSON.stringify(fileElement)}`);
+        setActiveTab(fileElement);
+    }
+
 	return (
-		<li>
+		<li onClick={onClick}>
 			<a>
 				{getElementIcon(fileElement, iconProps)}
+
 				<p className="text-ellipsis overflow-hidden text-nowrap">
 					{fileElement.name}
 				</p>

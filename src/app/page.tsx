@@ -7,7 +7,7 @@ import chroma from "chroma-js";
 import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
 import useCssColor from "@/utils/Hooks/CssColor";
-
+import { useTabStore } from "@/utils/Stores/TabStore";
 
 export default function Home() {
 	const headerHeight = 66;
@@ -15,7 +15,13 @@ export default function Home() {
 	const contextMenuColor = useCssColor("base-100");
 	const contextTextColor = useCssColor("base-content");
 
+    const [editorContent, setEditorContent] = useState<string>("");
+    const [editorLanguage, setEditorLanguage] = useState<string>("plaintext");
+
 	const [editor, setEditor] = useState<any>(null);
+    const [editorMonaco, setEditorMonaco] = useState<any>(null);
+
+    const activeTab = useTabStore((state) => state.activeTab);
 
 	function handleEditorDidMount(editor: any, monaco: any) {
 		if (!backgroundColor || !contextMenuColor || !contextTextColor) {
@@ -59,8 +65,10 @@ export default function Home() {
 		editor.focus();
 
 		setEditor(editor);
+        setEditorMonaco(monaco);
 	}
 
+    // Resize the editor when the window resizes
 	useEffect(() => {
 		window.onresize = () => {
 			if (editor) {
@@ -68,6 +76,22 @@ export default function Home() {
 			}
 		};
 	}, [editor]);
+
+    // Change the value of the editor when the active tab changes
+    useEffect(() => {
+        if (!activeTab || !editor || !editorMonaco) {
+            return
+        }
+
+        if (activeTab.validUtf == false) {
+            editor.setValue("File not displayable in editor");
+            return
+        }
+
+        editor.setValue(activeTab.content);
+
+
+    }, [activeTab, editor, editorMonaco]);
 
 	return (
 		<div className="flex flex-col max-w-screen max-h-screen bg-base-200">
@@ -86,25 +110,18 @@ export default function Home() {
 				<Sidebar headerHeight={headerHeight} />
 
 				{/* Editor */}
-				<div className="flex-grow w-0.5 h-full -ml-3 pt-1">
+				<div className="flex-grow w-0.5 h-full -ml-3 pt-1 pb-2 pr-1">
 					{backgroundColor && contextMenuColor && (
 						<Editor
-							defaultLanguage="typescript"
+							defaultLanguage="plaintext"
 							defaultValue="console.log('Best Editor')"
 							onMount={handleEditorDidMount}
+                            path={activeTab?.fileElement.absolutePath}
+                            // language={editorLanguage}
 						/>
 					)}
 				</div>
 			</div>
-
-			{/* <div className=" w-[600px] h-[400px] bg-base-200">
-				<TabContainer>
-					<div className="w-24 h-8 bg-blue-800"></div>
-					<div className="w-24 h-8 bg-red-800"></div>
-					<div className="w-24 h-8 bg-yellow-800"></div>
-					<div className="w-24 h-8 bg-violet-800"></div>
-				</TabContainer>
-			</div> */}
 		</div>
 	);
 }

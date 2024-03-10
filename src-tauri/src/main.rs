@@ -3,7 +3,7 @@
 
 use serde::{Deserialize, Serialize};
 use std::cmp::Ordering;
-use std::fs::read_dir;
+use std::fs::{self, read_dir};
 use std::path::PathBuf;
 use tauri::Manager;
 use window_shadows::set_shadow;
@@ -14,6 +14,7 @@ pub struct FileElement {
     pub type_: String,
     pub name: String,
     pub extension: String,
+    #[serde(rename = "absolutePath")]
     pub absolute_path: String,
 }
 
@@ -197,6 +198,14 @@ fn sort_file_tree(tree: &mut Vec<PathElement>) {
     }
 }
 
+#[tauri::command]
+fn read_file(file_path: &str) -> Option<String> {
+    match fs::read_to_string(file_path) {
+        Ok(content) => Some(content),
+        Err(_) => None,
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
@@ -206,7 +215,8 @@ fn main() {
         })
         .invoke_handler(tauri::generate_handler![
             generate_file_tree,
-            populate_folder
+            populate_folder,
+            read_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

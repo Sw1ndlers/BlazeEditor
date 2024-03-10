@@ -1,3 +1,5 @@
+export type AbsolutePath = string;
+
 export type FileElement = {
 	type: "file";
 	name: string;

@@ -12,28 +12,18 @@ export default function FolderNode({
 	folderElement: FolderElement;
 	iconColor: string;
 }) {
-	const fileTree = useFileStore((state) => state.fileTree);
-	const setFileTree = useFileStore((state) => state.setFileTree);
+	const [fileTree, setFileTree] = useFileStore((state) => [
+		state.fileTree,
+		state.setFileTree,
+	]);
 
-	const folderData = useFolderStore((state) => state.folderData);
-	const setFolderOpen = useFolderStore((state) => state.setFolderOpen);
-	const setFolderLoaded = useFolderStore((state) => state.setFolderLoaded);
-
-	function isFolderOpen(path: string) {
-		const open = folderData[path]?.open;
-		if (open == undefined) {
-			return false;
-		}
-		return open;
-	}
-
-	function isFolderLoaded(path: string) {
-		const loaded = folderData[path]?.loaded;
-		if (loaded == undefined) {
-			return false;
-		}
-		return loaded;
-	}
+	const [setFolderOpen, setFolderLoaded, isFolderLoaded, isFolderOpen] =
+		useFolderStore((state) => [
+			state.setFolderOpen,
+			state.setFolderLoaded,
+			state.isFolderLoaded,
+			state.isFolderOpen,
+		]);
 
 	function toggleOpen(folderElement: FolderElement) {
 		const isOpen = isFolderOpen(folderElement.absolutePath);
