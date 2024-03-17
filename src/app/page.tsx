@@ -2,7 +2,7 @@
 
 import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import useCssColor from "@/utils/Hooks/CssColor";
+import {useCssColor, useCssColorHex} from "@/utils/Hooks/CssColor";
 import { useTabStore } from "@/utils/Stores/TabStore";
 import Editor from "@monaco-editor/react";
 import chroma from "chroma-js";
@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
 	const headerHeight = 66;
-	const backgroundColor = useCssColor("base-200");
-	const contextMenuColor = useCssColor("base-100");
-	const contextTextColor = useCssColor("base-content");
+	const backgroundColor = useCssColorHex("base-200");
+	const contextMenuColor = useCssColorHex("base-100");
+	const contextTextColor = useCssColorHex("base-content");
 
 	const [editorContent, setEditorContent] = useState<string>("");
 	const [editorLanguage, setEditorLanguage] = useState<string>("plaintext");
@@ -35,15 +35,15 @@ export default function Home() {
 
 		editorStyle.setProperty(
 			"--vscode-menu-background",
-			contextMenuColor.hex(),
+			contextMenuColor,
 		);
 		editorStyle.setProperty(
 			"--vscode-menu-selectionBackground",
-			backgroundColor.hex(),
+			backgroundColor,
 		);
 		editorStyle.setProperty(
 			"--vscode-menu-foreground",
-			contextTextColor.hex(),
+			contextTextColor,
 		);
 
 		const backgroundLuminance = chroma(backgroundColor).luminance();
@@ -62,7 +62,7 @@ export default function Home() {
 			inherit: true,
 			rules: [],
 			colors: {
-				"editor.background": backgroundColor.hex(),
+				"editor.background": backgroundColor,
 			},
 		});
 
