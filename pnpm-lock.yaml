@@ -17,6 +17,9 @@ dependencies:
   chroma-js:
     specifier: ^2.4.2
     version: 2.4.2
+  immer:
+    specifier: ^10.0.4
+    version: 10.0.4
   next:
     specifier: 14.1.0
     version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
@@ -31,7 +34,7 @@ dependencies:
     version: 18.2.0(react@18.2.0)
   zustand:
     specifier: ^4.5.1
-    version: 4.5.1(@types/react@18.2.56)(react@18.2.0)
+    version: 4.5.1(@types/react@18.2.56)(immer@10.0.4)(react@18.2.0)
 
 devDependencies:
   '@tauri-apps/cli':
@@ -1702,6 +1705,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer@10.0.4:
+    resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3101,7 +3108,7 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zustand@4.5.1(@types/react@18.2.56)(react@18.2.0):
+  /zustand@4.5.1(@types/react@18.2.56)(immer@10.0.4)(react@18.2.0):
     resolution: {integrity: sha512-XlauQmH64xXSC1qGYNv00ODaQ3B+tNPoy22jv2diYiP4eoDKr9LA+Bh5Bc3gplTrFdb6JVI+N4kc1DZ/tbtfPg==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
@@ -3117,6 +3124,7 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.2.56
+      immer: 10.0.4
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
     dev: false

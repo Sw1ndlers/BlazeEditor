@@ -1,4 +1,5 @@
 import { Color } from "chroma-js";
+import { produce } from "immer";
 import { create } from "zustand";
 
 interface ColorStore {
@@ -9,15 +10,15 @@ interface ColorStore {
 
 export const useColorStore = create<ColorStore>((set, get) => ({
 	colors: {},
+
 	getColor: (color: string) => {
 		return get().colors[color] || null;
 	},
 	setColor: (color: string, value: Color) => {
-		set((state) => ({
-			colors: {
-				...state.colors,
-				[color]: value,
-			},
-		}));
+		set(
+			produce((state) => {
+				state.colors[color] = value;
+			}),
+		);
 	},
 }));

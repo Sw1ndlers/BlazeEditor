@@ -1,7 +1,7 @@
+import { produce } from "immer";
 import { create } from "zustand";
-import { FileElement } from "../Types/FileSystem";
-// import { readTextFile } from "@tauri-apps/api/fs";
 import { invoke } from "../Functions/Tauri";
+import { FileElement } from "../Types/FileSystem";
 
 export type TabData = {
 	fileElement: FileElement;
@@ -10,7 +10,6 @@ export type TabData = {
 	validUtf: boolean;
 	order: number | null;
 };
-
 async function getTabData(fileElement: FileElement): Promise<TabData> {
 	const content = await invoke<string>("read_file", {
 		filePath: fileElement.absolutePath,
@@ -48,7 +47,6 @@ interface TabStore {
 	setTabModified: (fileElement: FileElement, modified: boolean) => void;
 
 	setTabOrder: (fileElement: FileElement, order: number) => void;
-	sortTabs: () => void;
 }
 
 export const useTabStore = create<TabStore>((set, get) => ({
@@ -56,17 +54,12 @@ export const useTabStore = create<TabStore>((set, get) => ({
 	activeTab: null,
 
 	setTabOpen: (fileElement: FileElement, open: boolean) => {
-		set((state) => ({
-			tabList: {
-				...state.tabList,
-				[fileElement.absolutePath]: {
-					...state.tabList[fileElement.absolutePath],
-					open,
-				},
-			},
-		}));
+		set(
+			produce((state) => {
+				state.tabList[fileElement.absolutePath].open = open;
+			}),
+		);
 	},
-
 	removeTab: (fileElement: FileElement) => {
 		set((state) => {
 			const newTabData = { ...state.tabList };
@@ -76,7 +69,6 @@ export const useTabStore = create<TabStore>((set, get) => ({
 			};
 		});
 	},
-
 	setActiveTab: async (fileElement: FileElement) => {
 		let tabData = get().tabList[fileElement.absolutePath];
 
@@ -92,34 +84,22 @@ export const useTabStore = create<TabStore>((set, get) => ({
 
 		set({ activeTab: tabData });
 	},
-
 	setTabContent: (fileElement: FileElement, content: string) => {
-		set((state) => ({
-			tabList: {
-				...state.tabList,
-				[fileElement.absolutePath]: {
-					...state.tabList[fileElement.absolutePath],
-					content,
-				},
-			},
-		}));
+		set(
+			produce((state) => {
+				state.tabList[fileElement.absolutePath].content = content;
+			}),
+		);
 	},
-
 	setTabModified: (fileElement: FileElement, modified: boolean) => {
-		set((state) => ({
-			tabList: {
-				...state.tabList,
-				[fileElement.absolutePath]: {
-					...state.tabList[fileElement.absolutePath],
-					modified,
-				},
-			},
-		}));
+		set(
+			produce((state) => {
+				state.tabList[fileElement.absolutePath].modified = modified;
+			}),
+		);
 	},
-
+	// Breaks if it is with immer due to readonly error
 	setTabOrder: (fileElement: FileElement, order: number) => {
-		console.log(`Setting order of ${fileElement.name} to ${order}`);
-
 		set((state) => ({
 			tabList: {
 				...state.tabList,
@@ -129,26 +109,5 @@ export const useTabStore = create<TabStore>((set, get) => ({
 				},
 			},
 		}));
-	},
-	sortTabs: () => {
-		set((state) => {
-			const newTabList = { ...state.tabList };
-			const sortedTabs = Object.values(newTabList).sort(
-				(a, b) => a.order! - b.order!,
-			);
-
-			const newTabListSorted: Record<string, TabData> = {};
-
-			sortedTabs.forEach((tab, index) => {
-				newTabListSorted[tab.fileElement.absolutePath] = {
-					...tab,
-					order: index,
-				};
-			});
-
-			return {
-				tabList: newTabListSorted,
-			};
-		});
 	},
 }));

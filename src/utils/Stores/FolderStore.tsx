@@ -1,3 +1,4 @@
+import { produce } from "immer";
 import { create } from "zustand";
 import { AbsolutePath } from "../Types/FileSystem";
 
@@ -22,28 +23,22 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
 	folderData: {},
 
 	setFolderOpen: (path: AbsolutePath, open: boolean) => {
-		set((state) => ({
-			folderData: {
-				...state.folderData,
-				[path]: {
-					...state.folderData[path],
-					open,
-				},
-			},
-		}));
+		set(
+			produce((state) => {
+				state.folderData[path].open = open;
+			}),
+		);
 	},
 	setFolderLoaded: (path: AbsolutePath, loaded: boolean) => {
-		set((state) => ({
-			folderData: {
-				...state.folderData,
-				[path]: {
+		set(
+			produce((state) => {
+				state.folderData[path] = {
 					...state.folderData[path],
 					loaded,
-				},
-			},
-		}));
+				};
+			}),
+		);
 	},
-
 	isFolderLoaded: (path: AbsolutePath) => {
 		return get().folderData[path]?.loaded || false;
 	},
