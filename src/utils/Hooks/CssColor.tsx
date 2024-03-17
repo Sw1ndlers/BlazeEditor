@@ -82,5 +82,5 @@ export function useCssColorHex(colorInput: Hex) {
 		return globalColor.hex();
 	}
 
-	return colorValue?.hex();
+	return (colorValue && colorValue.hex()) || null;
 }
