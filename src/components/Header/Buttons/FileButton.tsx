@@ -12,12 +12,12 @@ export default function FileButton({ headerHeight }: { headerHeight: number }) {
 	return (
 		<div className="z-20 flex flex-col">
 			<div
-				className="px-2 py-[2px] rounded-sm mx-1 hover:bg-base-200"
+				className="mx-1 rounded-sm px-2 py-[2px] hover:bg-base-200"
 				onClick={toggleFileMenu}
 				onMouseEnter={() => setMouseOverButton(true)}
 				onMouseLeave={() => setMouseOverButton(false)}
 			>
-				<p className="text-xs cursor-pointer">File</p>
+				<p className="cursor-pointer text-xs">File</p>
 			</div>
 
 			<MenuDropdown

@@ -1,7 +1,7 @@
-import { useRef, useState } from "react";
 import { useClickOutside } from "@/utils/Hooks/ClickOutside";
 import { useFileStore } from "@/utils/Stores/FileStore";
 import { open } from "@tauri-apps/api/dialog";
+import { useRef } from "react";
 // import { invoke } from "@tauri-apps/api/tauri";
 import { invoke } from "@/utils/Functions/Tauri";
 import { PathElement } from "@/utils/Types/FileSystem";
@@ -35,10 +35,10 @@ function MenuItem({
 	});
 
 	return (
-		<tr className="hover:bg-base-300 select-none" onClick={callback}>
+		<tr className="select-none hover:bg-base-300" onClick={callback}>
 			<td className="rounded-l-md">{title}</td>
-			<td className="rounded-md flex flex-row">
-				<div className="flex ml-auto">{keybinds}</div>
+			<td className="flex flex-row rounded-md">
+				<div className="ml-auto flex">{keybinds}</div>
 			</td>
 		</tr>
 	);
@@ -98,9 +98,9 @@ export default function MenuDropdown({
 	return (
 		<div
 			ref={dropdownRef}
-			className={`w-max h-min ml-1 absolute bg-base-200 top-16    
+			className={`absolute top-16 ml-1 h-min w-max bg-base-200    
             ${!fileMenuOpen && "hidden"}
-            shadow-lg rounded-md menu z-50
+            menu z-50 rounded-md shadow-lg
         `}
 		>
 			<table className="table table-xs">

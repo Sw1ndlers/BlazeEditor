@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { AbsolutePath } from "../Types/FileSystem";
 
-
 type FolderData = {
 	open: boolean;
 	loaded: boolean;
@@ -15,8 +14,8 @@ interface FolderStore {
 	setFolderOpen: (path: AbsolutePath, open: boolean) => void;
 	setFolderLoaded: (path: AbsolutePath, loaded: boolean) => void;
 
-    isFolderLoaded: (path: AbsolutePath) => boolean;
-    isFolderOpen: (path: AbsolutePath) => boolean;
+	isFolderLoaded: (path: AbsolutePath) => boolean;
+	isFolderOpen: (path: AbsolutePath) => boolean;
 }
 
 export const useFolderStore = create<FolderStore>((set, get) => ({
@@ -45,10 +44,10 @@ export const useFolderStore = create<FolderStore>((set, get) => ({
 		}));
 	},
 
-    isFolderLoaded: (path: AbsolutePath) => {
-        return get().folderData[path]?.loaded || false;
-    },
-    isFolderOpen: (path: AbsolutePath) => {
-        return get().folderData[path]?.open || false;
-    },
+	isFolderLoaded: (path: AbsolutePath) => {
+		return get().folderData[path]?.loaded || false;
+	},
+	isFolderOpen: (path: AbsolutePath) => {
+		return get().folderData[path]?.open || false;
+	},
 }));

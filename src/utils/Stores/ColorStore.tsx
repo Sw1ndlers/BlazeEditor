@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import { Color } from "chroma-js";
+import { create } from "zustand";
 
 interface ColorStore {
 	colors: Record<string, Color>;

@@ -1,7 +1,7 @@
-import { PathElement } from "@/utils/Types/FileSystem";
-import generateNodes from "./Nodes/GenerateNodes";
 import useCssColor from "@/utils/Hooks/CssColor";
+import { PathElement } from "@/utils/Types/FileSystem";
 import { Color } from "chroma-js";
+import generateNodes from "./Nodes/GenerateNodes";
 
 export default function FileTree({
 	folderName,
@@ -12,13 +12,13 @@ export default function FileTree({
 	fileStructure: PathElement[];
 	sidebarCollapsed: boolean;
 }) {
-	let iconColor: string | Color | null = useCssColor("base-content")
+	let iconColor: string | Color | null = useCssColor("base-content");
 
 	if (iconColor === null) {
 		return;
 	}
 
-    iconColor = iconColor.hex();
+	iconColor = iconColor.hex();
 
 	const fileTreeElements: React.JSX.Element[] = [];
 
@@ -28,13 +28,13 @@ export default function FileTree({
 
 	return (
 		<ul
-			className={`menu menu-xs w-full max-h-full p-0 flex-col flex-nowrap pb-2 overflow-y-hidden ${sidebarCollapsed ? "hidden" : "flex"}`}
+			className={`menu menu-xs max-h-full w-full flex-col flex-nowrap overflow-y-hidden p-0 pb-2 ${sidebarCollapsed ? "hidden" : "flex"}`}
 		>
-			<p className=" text-xs px-1 py-0.5 font-semibold h-min">
+			<p className=" h-min px-1 py-0.5 text-xs font-semibold">
 				{folderName}
 			</p>
 
-			<div className="flex-grow h-full overflow-y-scroll">
+			<div className="h-full flex-grow overflow-y-scroll">
 				{fileTreeElements}
 			</div>
 		</ul>

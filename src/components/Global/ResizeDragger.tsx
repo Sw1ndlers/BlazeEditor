@@ -46,7 +46,7 @@ export default function ResizeDragger({
 				left: (containerWidth != null && containerWidth) || "16rem",
 				height: height,
 			}}
-			className="w-1 absolute hover:cursor-w-resize"
+			className="absolute w-1 hover:cursor-w-resize"
 		></div>
 	);
 }

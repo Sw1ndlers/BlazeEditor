@@ -16,7 +16,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" data-theme="dark">
-			<body className={`${inter.className} overflow-y-hidden `}>{children}</body>
+			<body className={`${inter.className} overflow-y-hidden `}>
+				{children}
+			</body>
 		</html>
 	);
 }

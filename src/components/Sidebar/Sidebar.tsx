@@ -1,10 +1,9 @@
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import ExplorerTab from "./Explorer/ExplorerTab";
-import ResizeDragger from "../Global/ResizeDragger";
-import FileTree from "./FileTree/FileTree";
-import { PathElement } from "@/utils/Types/FileSystem";
-import { useFileStore } from "@/utils/Stores/FileStore";
 import { getFolderName } from "@/utils/Functions/FileSystem";
+import { useFileStore } from "@/utils/Stores/FileStore";
+import { useMemo, useRef, useState } from "react";
+import ResizeDragger from "../Global/ResizeDragger";
+import ExplorerTab from "./Explorer/ExplorerTab";
+import FileTree from "./FileTree/FileTree";
 
 export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
@@ -46,8 +45,8 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 			className={`
                 ${sidebarCollapsed ? "justify-center" : "px-1.5"} 
                 ${sidebarCollapsed ? "block" : "flex flex-col"}
-                max-h-full bg-base-100 flex z-10 px-0 select-none
-                overflow-x-hidden text-ellipsis  overflow-y-hidden
+                z-10 flex max-h-full select-none overflow-x-hidden overflow-y-hidden
+                text-ellipsis bg-base-100  px-0
             `}
 		>
 			{!sidebarCollapsed && (
@@ -67,7 +66,7 @@ export default function Sidebar({ headerHeight }: { headerHeight: number }) {
 
 			{/* Tab and File Tree Seperator */}
 			{!sidebarCollapsed && (
-				<div className="min-h-0.5 w-full bg-base-200 my-1"></div>
+				<div className="my-1 min-h-0.5 w-full bg-base-200"></div>
 			)}
 
 			{fileTreeElement}

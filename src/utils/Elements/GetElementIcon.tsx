@@ -1,27 +1,27 @@
 import {
 	IconAppWindow,
+	IconBraces,
+	IconBrandAngular,
+	IconBrandCpp,
+	IconBrandCss3,
+	IconBrandFlutter,
+	IconBrandGithubFilled,
+	IconBrandHtml5,
+	IconBrandJavascript,
+	IconBrandKotlin,
+	IconBrandPhp,
+	IconBrandPython,
 	IconBrandReact,
+	IconBrandRust,
+	IconBrandSass,
+	IconBrandSvelte,
+	IconBrandSwift,
 	IconBrandTypescript,
+	IconBrandYarn,
 	IconFile,
 	IconFileTypePdf,
-	IconBrandPython,
-	IconBrandRust,
-	IconBraces,
 	IconMarkdown,
 	IconPhoto,
-	IconBrandCpp,
-	IconBrandHtml5,
-	IconBrandCss3,
-	IconBrandJavascript,
-	IconBrandPhp,
-	IconBrandSwift,
-	IconBrandKotlin,
-	IconBrandFlutter,
-	IconBrandAngular,
-	IconBrandSvelte,
-	IconBrandYarn,
-	IconBrandSass,
-	IconBrandGithubFilled,
 } from "@tabler/icons-react";
 import { FileElement } from "../Types/FileSystem";
 
@@ -32,7 +32,10 @@ export type ElementIconProps = {
 	className: string;
 };
 
-export default function getElementIcon(element: FileElement, iconProps: ElementIconProps) {
+export default function getElementIcon(
+	element: FileElement,
+	iconProps: ElementIconProps,
+) {
 	const iconMap: Record<string, React.ReactElement> = {
 		ts: <IconBrandTypescript {...iconProps} />,
 		tsx: <IconBrandReact {...iconProps} />,

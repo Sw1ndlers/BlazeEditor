@@ -1,8 +1,8 @@
+import { invoke } from "@/utils/Functions/Tauri";
 import { useFileStore } from "@/utils/Stores/FileStore";
 import { useFolderStore } from "@/utils/Stores/FolderStore";
 import { FolderElement, PathElement } from "@/utils/Types/FileSystem";
 import { IconFolder, IconFolderFilled } from "@tabler/icons-react";
-import { invoke } from "@/utils/Functions/Tauri";
 import generateNodes from "./GenerateNodes";
 
 export default function FolderNode({
@@ -27,7 +27,6 @@ export default function FolderNode({
 
 	function toggleOpen(folderElement: FolderElement) {
 		const isOpen = isFolderOpen(folderElement.absolutePath);
-		console.log("isOpen", isOpen);
 		setFolderOpen(folderElement.absolutePath, !isOpen);
 	}
 
@@ -66,7 +65,7 @@ export default function FolderNode({
 						/>
 					)}
 
-					<p className="text-ellipsis overflow-hidden text-nowrap">
+					<p className="overflow-hidden text-ellipsis text-nowrap">
 						{folderElement.name}
 					</p>
 				</summary>

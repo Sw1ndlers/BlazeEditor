@@ -1,6 +1,6 @@
 import { IconMinus, IconSquare, IconX } from "@tabler/icons-react";
 import { WebviewWindow } from "@tauri-apps/api/window";
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 function ActionButton({
 	children,
@@ -31,7 +31,7 @@ function ActionButton({
 
 	return (
 		<div
-			className={`${hoverClass} size-8 flex justify-center items-center rounded-sm p-1`}
+			className={`${hoverClass} flex size-8 items-center justify-center rounded-sm p-1`}
 			onClick={() => onClick(actionType)}
 		>
 			{children}
@@ -53,7 +53,7 @@ export default function ActionButtons({ iconColor }: { iconColor: string }) {
 	}, []);
 
 	return (
-		<div className="flex ml-auto items-center">
+		<div className="ml-auto flex items-center">
 			<ActionButton
 				appWindow={appWindow!}
 				hoverClass="hover:bg-base-200"

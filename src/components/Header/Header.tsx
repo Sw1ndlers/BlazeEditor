@@ -1,10 +1,8 @@
-import { IconBrandHtml5, IconFlame, IconX } from "@tabler/icons-react";
-import FileButton from "./Buttons/FileButton";
-import ActionButtons from "./Buttons/ActionButtons";
-import useCssColor, { rgbaToCss } from "@/utils/Hooks/CssColor";
+import useCssColor from "@/utils/Hooks/CssColor";
+import { IconFlame } from "@tabler/icons-react";
 import { Color } from "chroma-js";
-import { ReactNode, useEffect, useRef, useState } from "react";
-import React from "react";
+import ActionButtons from "./Buttons/ActionButtons";
+import FileButton from "./Buttons/FileButton";
 import Tabs from "./Tabs/Tabs";
 
 export default function Header({ headerHeight }: { headerHeight: number }) {
@@ -20,7 +18,7 @@ export default function Header({ headerHeight }: { headerHeight: number }) {
 		<div>
 			<div
 				data-tauri-drag-region
-				className="w-full flex items-center px-2 bg-base-300"
+				className="flex w-full items-center bg-base-300 px-2"
 				style={{
 					// -24 for the file button container
 					height: `${headerHeight - 26}px`,
@@ -30,11 +28,11 @@ export default function Header({ headerHeight }: { headerHeight: number }) {
 					<IconFlame data-tauri-drag-region />
 				</div>
 
-                <Tabs />
+				<Tabs />
 
 				<ActionButtons iconColor={iconColor} />
 			</div>
-			<div className="h-min w-full flex flex-row bg-base-100 px-0.5 pb-0.5 pt-1">
+			<div className="flex h-min w-full flex-row bg-base-100 px-0.5 pb-0.5 pt-1">
 				<FileButton headerHeight={headerHeight} />
 			</div>
 		</div>

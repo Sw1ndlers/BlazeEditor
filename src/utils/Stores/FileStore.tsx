@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { FolderElement, PathElement } from "../Types/FileSystem";
+import { PathElement } from "../Types/FileSystem";
 
 interface FileSystemStore {
 	selectedFolder: string;
