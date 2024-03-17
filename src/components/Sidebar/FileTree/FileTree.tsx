@@ -1,4 +1,4 @@
-import {useCssColor} from "@/utils/Hooks/CssColor";
+import { useCssColor } from "@/utils/Hooks/CssColor";
 import { PathElement } from "@/utils/Types/FileSystem";
 import { Color } from "chroma-js";
 import generateNodes from "./Nodes/GenerateNodes";

@@ -1,6 +1,5 @@
-import {useCssColor, useCssColorHex} from "@/utils/Hooks/CssColor";
+import { useCssColorHex } from "@/utils/Hooks/CssColor";
 import { IconFlame } from "@tabler/icons-react";
-import { Color } from "chroma-js";
 import ActionButtons from "./Buttons/ActionButtons";
 import FileButton from "./Buttons/FileButton";
 import Tabs from "./Tabs/Tabs";
@@ -28,7 +27,7 @@ export default function Header({ headerHeight }: { headerHeight: number }) {
 
 				<Tabs />
 
-				<ActionButtons iconColor={iconColor!} />
+				<ActionButtons iconColor={iconColor} />
 			</div>
 			<div className="flex h-min w-full flex-row bg-base-100 px-0.5 pb-0.5 pt-1">
 				<FileButton headerHeight={headerHeight} />

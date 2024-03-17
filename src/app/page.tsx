@@ -2,7 +2,7 @@
 
 import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import {useCssColor, useCssColorHex} from "@/utils/Hooks/CssColor";
+import { useCssColorHex } from "@/utils/Hooks/CssColor";
 import { useTabStore } from "@/utils/Stores/TabStore";
 import Editor from "@monaco-editor/react";
 import chroma from "chroma-js";
@@ -33,18 +33,12 @@ export default function Home() {
 		)[0]! as HTMLDivElement;
 		const editorStyle = editorRoot.style;
 
-		editorStyle.setProperty(
-			"--vscode-menu-background",
-			contextMenuColor,
-		);
+		editorStyle.setProperty("--vscode-menu-background", contextMenuColor);
 		editorStyle.setProperty(
 			"--vscode-menu-selectionBackground",
 			backgroundColor,
 		);
-		editorStyle.setProperty(
-			"--vscode-menu-foreground",
-			contextTextColor,
-		);
+		editorStyle.setProperty("--vscode-menu-foreground", contextTextColor);
 
 		const backgroundLuminance = chroma(backgroundColor).luminance();
 		const selectionForground =

@@ -1,26 +1,23 @@
-import {useCssColor, useCssColorHex} from "@/utils/Hooks/CssColor";
+import { useCssColor, useCssColorHex } from "@/utils/Hooks/CssColor";
 import useSetCssColor from "@/utils/Hooks/SetCssColor";
 import { TabData, useTabStore } from "@/utils/Stores/TabStore";
-import { Color } from "chroma-js";
 import React, { ReactNode, useRef } from "react";
 import { DecoratedTab } from "./TabFunctionality/DecoratedTab";
 import { TabWrapper } from "./TabFunctionality/TabWrapper";
 
 export default function Tabs() {
 	const inactiveHoverColor = useCssColor("base-100");
-    const iconColor = useCssColorHex("base-content");
+	const iconColor = useCssColorHex("base-content");
 
 	const tabContainerRef = useRef<HTMLDivElement>(null);
 	const activeTab = useTabStore((state) => state.activeTab);
 	const tabList = useTabStore((state) => state.tabList);
 
-	
 	useSetCssColor(inactiveHoverColor, "inactive-hover-color", tabContainerRef);
 
 	if (iconColor === null || inactiveHoverColor === null) {
 		return null;
 	}
-
 
 	function onWheel(event: React.WheelEvent) {
 		if (tabContainerRef.current) {
