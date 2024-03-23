@@ -17,6 +17,8 @@ export function DecoratedTab({
 	tabData: TabData;
 	activeTab: TabData | null;
 }) {
+	const removeTab = useTabStore((state) => state.removeTab);
+
 	const tabRef = useRef<HTMLDivElement>(null);
 	const setActiveTab = useTabStore((state) => state.setActiveTab);
 	const iconProps: ElementIconProps = {
@@ -45,7 +47,7 @@ export function DecoratedTab({
 		setCloseButtonHovered(false);
 	}
 
-	function onClick() {
+	function onTabClick() {
 		if (closeButtonHovered) {
 			return;
 		}
@@ -53,10 +55,16 @@ export function DecoratedTab({
 		setActiveTab(tabData.fileElement);
 	}
 
+	function onCloseButtonClick() {
+		removeTab(fileElement);
+
+		setActiveTab(null);
+	}
+
 	return (
 		<div
 			ref={tabRef}
-			onClick={onClick}
+			onClick={onTabClick}
 			className={`
                         group tab flex h-full w-max min-w-28 
                         items-center justify-center gap-1 rounded-t-sm 
@@ -78,6 +86,7 @@ export function DecoratedTab({
 					size={14}
 					onMouseEnter={onCloseButtonHover}
 					onMouseLeave={onCloseButtonUnhover}
+					onClick={onCloseButtonClick}
 				/>
 			</div>
 		</div>

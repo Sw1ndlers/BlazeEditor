@@ -10,6 +10,7 @@ export type TabData = {
 	validUtf: boolean;
 	order: number | null;
 };
+
 async function getTabData(fileElement: FileElement): Promise<TabData> {
 	const content = await invoke<string>("read_file", {
 		filePath: fileElement.absolutePath,
@@ -41,12 +42,12 @@ interface TabStore {
 	setTabOpen: (fileElement: FileElement, open: boolean) => void;
 	removeTab: (fileElement: FileElement) => void;
 
-	setActiveTab: (fileElement: FileElement) => void;
+	setActiveTab: (fileElement: FileElement | null) => void;
 
 	setTabContent: (fileElement: FileElement, content: string) => void;
 	setTabModified: (fileElement: FileElement, modified: boolean) => void;
 
-	setTabOrder: (fileElement: FileElement, order: number) => void;
+	setTabOrder: (fileElement: FileElement, order: number | null) => void;
 }
 
 export const useTabStore = create<TabStore>((set, get) => ({
@@ -60,16 +61,27 @@ export const useTabStore = create<TabStore>((set, get) => ({
 			}),
 		);
 	},
+
 	removeTab: (fileElement: FileElement) => {
+        console.log(`Before: ${JSON.stringify(get().tabList)}`)
 		set((state) => {
 			const newTabData = { ...state.tabList };
+
 			delete newTabData[fileElement.absolutePath];
+
 			return {
 				tabList: newTabData,
 			};
 		});
+        console.log(`After: ${JSON.stringify(get().tabList)}`)
 	},
-	setActiveTab: async (fileElement: FileElement) => {
+
+	setActiveTab: async (fileElement: FileElement | null) => {
+        if (fileElement == null) {
+            set({ activeTab: null });
+            return;
+        }
+
 		let tabData = get().tabList[fileElement.absolutePath];
 
 		if (tabData == null) {
@@ -84,6 +96,7 @@ export const useTabStore = create<TabStore>((set, get) => ({
 
 		set({ activeTab: tabData });
 	},
+    
 	setTabContent: (fileElement: FileElement, content: string) => {
 		set(
 			produce((state) => {
@@ -91,6 +104,7 @@ export const useTabStore = create<TabStore>((set, get) => ({
 			}),
 		);
 	},
+
 	setTabModified: (fileElement: FileElement, modified: boolean) => {
 		set(
 			produce((state) => {
@@ -98,14 +112,17 @@ export const useTabStore = create<TabStore>((set, get) => ({
 			}),
 		);
 	},
+
 	// Breaks if it is with immer due to readonly error
-	setTabOrder: (fileElement: FileElement, order: number) => {
+	setTabOrder: (fileElement: FileElement, order: number | null) => {
+        
+            
 		set((state) => ({
 			tabList: {
 				...state.tabList,
 				[fileElement.absolutePath]: {
 					...state.tabList[fileElement.absolutePath],
-					order,
+					order: order,
 				},
 			},
 		}));

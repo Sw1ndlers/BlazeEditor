@@ -30,6 +30,7 @@ export default function Tabs() {
 		element: ReactNode;
 	}[] = [];
 
+    // 0-indexed order causes bugs
 	let i = 1;
 
 	for (const absolutePath in tabList) {
@@ -52,6 +53,12 @@ export default function Tabs() {
 	}
 
 	tabContainerChildren.sort((a, b) => a.tabData.order! - b.tabData.order!);
+    
+    // Update indexes after deleting a tab
+    tabContainerChildren.forEach((tab, index) => {
+        // Add one to index to make it 1-indexed, not 0-indexed, 0-indexed causes bugs
+        tab.tabData.order = index + 1;
+    })
 
 	return (
 		<div
