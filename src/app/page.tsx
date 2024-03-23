@@ -3,15 +3,9 @@
 import EditorWrapper from "@/components/EditorWrapper/EditorWrapper";
 import Header from "@/components/Header/Header";
 import Sidebar from "@/components/Sidebar/Sidebar";
-import { useCssColorHex } from "@/utils/Hooks/CssColor";
-import { useTabStore } from "@/utils/Stores/TabStore";
-import Editor from "@monaco-editor/react";
-import chroma from "chroma-js";
-import { useEffect, useState } from "react";
 
 export default function Home() {
 	const headerHeight = 66;
-
 
 	return (
 		<div className="max-w-screen flex max-h-screen flex-col bg-base-200">
@@ -31,7 +25,7 @@ export default function Home() {
 
 				{/* Editor */}
 				<div className="-ml-3 h-full w-0.5 flex-grow pb-2 pr-1 pt-1">
-                    <EditorWrapper />
+					<EditorWrapper />
 				</div>
 			</div>
 		</div>

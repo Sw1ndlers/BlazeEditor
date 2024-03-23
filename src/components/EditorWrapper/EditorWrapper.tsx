@@ -5,12 +5,11 @@ import chroma from "chroma-js";
 import { useEffect, useState } from "react";
 
 function getEditorStyle(): CSSStyleDeclaration {
-    const editorRoot = document.getElementsByClassName(
-        "monaco-editor",
-    )[0]! as HTMLDivElement;
-    return editorRoot.style;
+	const editorRoot = document.getElementsByClassName(
+		"monaco-editor",
+	)[0]! as HTMLDivElement;
+	return editorRoot.style;
 }
-
 
 function setEditorStyle(
 	editorStyle: CSSStyleDeclaration,
@@ -38,7 +37,7 @@ function setEditorStyle(
 }
 
 export default function EditorWrapper() {
-    const activeTab = useTabStore((state) => state.activeTab);
+	const activeTab = useTabStore((state) => state.activeTab);
 
 	const backgroundColor = useCssColorHex("base-200");
 	const contextMenuColor = useCssColorHex("base-100");
@@ -56,8 +55,13 @@ export default function EditorWrapper() {
 			return;
 		}
 
-        const editorStyle = getEditorStyle();
-        setEditorStyle(editorStyle, backgroundColor, contextMenuColor, contextTextColor);
+		const editorStyle = getEditorStyle();
+		setEditorStyle(
+			editorStyle,
+			backgroundColor,
+			contextMenuColor,
+			contextTextColor,
+		);
 
 		monaco.editor.defineTheme("my-theme", {
 			base: "vs-dark",
@@ -97,7 +101,7 @@ export default function EditorWrapper() {
 
 		editor.setValue(activeTab.content);
 	}, [activeTab, editor, editorMonaco]);
-    
+
 	return (
 		<>
 			{backgroundColor && contextMenuColor && (

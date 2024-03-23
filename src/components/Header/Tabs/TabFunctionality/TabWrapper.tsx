@@ -53,7 +53,7 @@ export function TabWrapper({
 			onDrop={onDrop}
 		>
 			{decoratedElement}
-            {/* <p className="absolute">
+			{/* <p className="absolute">
                 {tabData.order}
             </p> */}
 		</div>

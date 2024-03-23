@@ -63,7 +63,7 @@ export const useTabStore = create<TabStore>((set, get) => ({
 	},
 
 	removeTab: (fileElement: FileElement) => {
-        console.log(`Before: ${JSON.stringify(get().tabList)}`)
+		console.log(`Before: ${JSON.stringify(get().tabList)}`);
 		set((state) => {
 			const newTabData = { ...state.tabList };
 
@@ -73,14 +73,14 @@ export const useTabStore = create<TabStore>((set, get) => ({
 				tabList: newTabData,
 			};
 		});
-        console.log(`After: ${JSON.stringify(get().tabList)}`)
+		console.log(`After: ${JSON.stringify(get().tabList)}`);
 	},
 
 	setActiveTab: async (fileElement: FileElement | null) => {
-        if (fileElement == null) {
-            set({ activeTab: null });
-            return;
-        }
+		if (fileElement == null) {
+			set({ activeTab: null });
+			return;
+		}
 
 		let tabData = get().tabList[fileElement.absolutePath];
 
@@ -96,7 +96,7 @@ export const useTabStore = create<TabStore>((set, get) => ({
 
 		set({ activeTab: tabData });
 	},
-    
+
 	setTabContent: (fileElement: FileElement, content: string) => {
 		set(
 			produce((state) => {
@@ -115,8 +115,6 @@ export const useTabStore = create<TabStore>((set, get) => ({
 
 	// Breaks if it is with immer due to readonly error
 	setTabOrder: (fileElement: FileElement, order: number | null) => {
-        
-            
 		set((state) => ({
 			tabList: {
 				...state.tabList,
