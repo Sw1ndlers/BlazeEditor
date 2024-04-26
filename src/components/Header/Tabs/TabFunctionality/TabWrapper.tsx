@@ -44,6 +44,9 @@ export function TabWrapper({
 		setTabOrder(droppedTab.fileElement, currentTabOrderDrop);
 	}
 
+    const tabDataClone = JSON.parse(JSON.stringify(tabData))
+    tabDataClone["content"] = "content"
+
 	return (
 		<div
 			draggable
@@ -51,11 +54,12 @@ export function TabWrapper({
 			onDragOver={dragOver}
 			onDragStart={dragStart}
 			onDrop={onDrop}
+            className=" group"
 		>
 			{decoratedElement}
-			{/* <p className="absolute">
-                {tabData.order}
-            </p> */}
+			<p className="group absolute invisible group-hover:visible p-2 bg-base-100 w-min h-min z-50 text-xs whitespace-pre">
+                {JSON.stringify(tabDataClone, null, 4)}
+            </p>
 		</div>
 	);
 }
