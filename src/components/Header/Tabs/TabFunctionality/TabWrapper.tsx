@@ -57,9 +57,9 @@ export function TabWrapper({
             className=" group"
 		>
 			{decoratedElement}
-			<p className="group absolute invisible group-hover:visible p-2 bg-base-100 w-min h-min z-50 text-xs whitespace-pre">
+			{/* <p className="group absolute invisible group-hover:visible p-2 bg-base-100 w-min h-min z-50 text-xs whitespace-pre">
                 {JSON.stringify(tabDataClone, null, 4)}
-            </p>
+            </p> */}
 		</div>
 	);
 }
